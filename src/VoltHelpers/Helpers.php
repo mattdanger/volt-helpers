@@ -55,4 +55,29 @@ class Helpers extends Component
 
   }
 
+
+  /**
+   * Return pagination link path
+   *
+   * @return string
+   */
+  public static function paginationPath()
+  {
+
+    $di = new \Phalcon\DI();
+
+    // Get requested URI so we can grab the path route
+    $uri = parse_url($di->getDefault()->getRequest()->getURI());
+
+    // Get query params and add an empty 'page' param. 
+    // The pagination template will append the page number.
+    $q = $di->getDefault()->getRequest()->getQuery();
+    $q['page'] = '';
+    unset($q['_url']);
+
+    // Return new URI with empty page param
+    return $uri['path'] . '?' . http_build_query($q);
+
+  }
+
 }
