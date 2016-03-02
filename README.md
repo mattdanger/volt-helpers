@@ -1,21 +1,71 @@
-# volt-helpers
+VoltHelpers\Helpers
+===================
 
 Useful additions to the Volt template engine 
 
-### ordinal
+## Installing ##
+
+Install using Composer:
+
+```json
+{
+	"require": {
+		"mattdanger/volt-helpers": "dev-master"
+	}
+}
+```
+
+You'll also need to add each function to the Volt service:
+
+```php
+$di->set('view', function () use ($config) {
+
+  $view = new View();
+  // ...
+  $view->registerEngines(array(
+    '.volt' => function ($view, $di) use ($config) {
+
+      $volt = new VoltEngine($view, $di);
+
+      $volt->getCompiler()->addFunction('sortLink', function ($resolvedArgs, $expArgs) {
+        return 'VoltHelpers\Helpers::sortLink(' . $resolvedArgs . ')';
+      });
+      $volt->getCompiler()->addFunction('sortIcon', function ($resolvedArgs, $expArgs) {
+        return 'VoltHelpers\Helpers::sortIcon(' . $resolvedArgs . ')';
+      });
+      $volt->getCompiler()->addFunction('paginationPath', function ($resolvedArgs, $expArgs) {
+        return 'VoltHelpers\Helpers::paginationPath(' . $resolvedArgs . ')';
+      });
+      // ... 
+
+      return $volt;
+    },
+    // ...
+  ));
+
+  return $view;
+
+});
+```
+
+
+## Using Helpers
+
+Here's a list of what's included:
+
+`ordinal($number)`
 
 Number ordinal service - returns 1st, 2nd, 10th, 43rd, 724th, etc.
 
-**Usage:** `ordinal($number)`
-
-### strToCurrency
+`strToCurrency($value)`
 
 Output a string in currency format
 
-**Usage:** `strToCurrency($value)`
-
-### pluralize
+`pluralize($count, $singular, $plural)`
 
 Pluralize string
 
-**Usage:** `pluralize($count, $singular, $plural)`
+`paginationPath()`
+
+Returns a URL encoded string with current request params plus a param for current pagination page number.
+
