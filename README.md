@@ -27,11 +27,14 @@ $di->set('view', function () use ($config) {
 
       $volt = new VoltEngine($view, $di);
 
-      $volt->getCompiler()->addFunction('sortLink', function ($resolvedArgs, $expArgs) {
-        return 'VoltHelpers\Helpers::sortLink(' . $resolvedArgs . ')';
+      $volt->getCompiler()->addFunction('ordinal', function ($resolvedArgs, $expArgs) {
+        return 'VoltHelpers\Helpers::ordinal(' . $resolvedArgs . ')';
       });
-      $volt->getCompiler()->addFunction('sortIcon', function ($resolvedArgs, $expArgs) {
-        return 'VoltHelpers\Helpers::sortIcon(' . $resolvedArgs . ')';
+      $volt->getCompiler()->addFunction('strToCurrency', function ($resolvedArgs, $expArgs) {
+        return 'VoltHelpers\Helpers::strToCurrency(' . $resolvedArgs . ')';
+      });
+      $volt->getCompiler()->addFunction('pluralize', function ($resolvedArgs, $expArgs) {
+        return 'VoltHelpers\Helpers::pluralize(' . $resolvedArgs . ')';
       });
       $volt->getCompiler()->addFunction('paginationPath', function ($resolvedArgs, $expArgs) {
         return 'VoltHelpers\Helpers::paginationPath(' . $resolvedArgs . ')';
